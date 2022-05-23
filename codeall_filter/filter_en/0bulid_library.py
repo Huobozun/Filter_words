@@ -1,40 +1,8 @@
-
-import nltk
 import os 
 import json
 import sys
 import time
-sys.path.append('/home/zjg/code2/')
-def get_title(name,file):
-    with open('/home/zjg/code2/'+name+file,'r',encoding='utf-8')as ft:
-        dataci=[]
-        for line in ft:
-            dataci.append(line)
-        ft.close()
-        z=[]
-        for ii in range(0,len(dataci)):
-            x=dataci[ii]
-            y=''
-            for i in range(0,8):
-                y+=x[i]
-            z.append(y)
-    return z
-
-
-def get_content(name,file):
-    with open('/home/zjg/code2/'+name+file,'r',encoding='utf-8')as ft:
-        dataci=[]
-        for line in ft:
-            dataci.append(line)
-        ft.close()
-        z=[]
-        for ii in range(0,len(dataci)):
-            x=dataci[ii]
-            y=''
-            for i in range(9,len(x)):
-                y+=x[i]
-            z.append(eval(y))
-    return z
+path=os.getcwd()
 
 def getword(path):
     with open(path, 'r', encoding='utf-8') as f:
@@ -95,69 +63,32 @@ def getword(path):
     return title,data1,data2,data3 #title是每行的title的list,对应的，data1是每行的英文单词的集合的list,data2是term type，data3是出处
 
 
-def is_contain_chinese(check_str):
-    """
-    判断字符串中是否包含中文
-    :param check_str: {str} 需要检测的字符串
-    :return: {bool} 包含返回True， 不包含返回False
-    """
-    for ch in check_str:
-        if u'\u4e00' <= ch <= u'\u9fff':
-            return True
-    return False
-
-def _filter_zh_(word):
-
-    l=[]
-    for i0 in range(0,len(word)):
-        l.append(0)
-
-    for i0 in range(0,len(word)):#词中有句号
-        if('。' in word[i0]):
-            l[i0]=1
-        if not is_contain_chinese(word[i0]):#不包含中文
-            l[i0]=1
-
-
-
-
-    return l
-
-def get_filelist(dir):#依次遍历.json文件
- 
-    Filelist = []
- 
-    for home, dirs, files in os.walk(path):
- 
-        for filename in files:
- 
-
-            # 文件名列表，包含完整路径
-            #Filelist.append(os.path.join(home, filename))
-            # # 文件名列表，只包含文件名
-            Filelist.append( filename)
-    return Filelist
 
 
 if __name__ == "__main__":
 
-    path ='/home/zjg/code2/filter_zh/ALL_RESULT_zh/'
-    Filelist = get_filelist(dir)
+    path1 =path+'/file/'
+    Filelist = os.listdir(path1)
     for i in range(0,len(Filelist)):
         print(Filelist[i])
-        ftitle,fw,ft,fr=getword('filter_zh/ALL_RESULT_zh/'+Filelist[i])#list里类型为str
-        with open('/home/zjg/code2/filter_zh/2/'+Filelist[i],'w',encoding='utf8',newline='')as ff:
+        ftitle,fw,ft,fr=getword(path1+Filelist[i])#list里类型为str
+
+        with open(path+'/words-word/'+Filelist[i],'w',newline='')as fa:
             for i1 in range(0,len(fw)):
-                fw1=fw[i1]
-                x=_filter_zh_(fw1)
-                ff.write('%s\t%s\n' %(ftitle[i1],x))
+                fa.write('%s\t%s\n' %(ftitle[i1],fw[i1]))
+        fa.close()
 
-        ff.close()
+        with open(path+'/words-type/'+Filelist[i],'w',newline='')as fb:
+            for i2 in range(0,len(ft)):
+                fb.write('%s\t%s\n' %(ftitle[i2],ft[i2]))
+        fb.close()
+        
+        with open(path+'/words-resouce/'+Filelist[i],'w',newline='')as fc:
+            for i3 in range(0,len(fr)):
+                fc.write('%s\t%s\n' %(ftitle[i3],fr[i3]))
+        fc.close()
 
 
-
- 
- 
 
 
 

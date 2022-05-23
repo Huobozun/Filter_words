@@ -8,9 +8,9 @@ import os
 import json
 import sys
 import time
-sys.path.append('/home/zjg/code2/')
+path=os.getcwd()
 def get_title(name,file):
-    with open('/home/zjg/code2/'+name+file,'r',encoding='utf-8')as ft:
+    with open(path+'/'+name+file,'r',encoding='utf-8')as ft:
         dataci=[]
         for line in ft:
             dataci.append(line)
@@ -26,7 +26,7 @@ def get_title(name,file):
 
 
 def get_content(name,file):
-    with open('/home/zjg/code2/'+name+file,'r',encoding='utf-8')as ft:
+    with open(path+'/'+name+file,'r',encoding='utf-8')as ft:
         dataci=[]
         for line in ft:
             dataci.append(line)
@@ -41,7 +41,7 @@ def get_content(name,file):
     return z
 
 def get_index(name,file):
-    with open('/home/zjg/code2/'+name+file,'r',encoding='utf-8')as ft:
+    with open(path+'/'+name+file,'r',encoding='utf-8')as ft:
         dataci=[]
         for line in ft:
             dataci.append(line)
@@ -56,7 +56,7 @@ def get_index(name,file):
     return z
 
 def get_word(name,file):
-    with open('/home/zjg/code2/'+name+file,'r',encoding='utf-8')as ft:
+    with open(path+'/'+name+file,'r',encoding='utf-8')as ft:
         dataci=[]
         for line in ft:
             dataci.append(line)
@@ -70,38 +70,24 @@ def get_word(name,file):
             z.append(y)
     return z
 
-def get_filelist(dir):#依次遍历.json文件
- 
-    Filelist = []
- 
-    for home, dirs, files in os.walk(path):
- 
-        for filename in files:
- 
-
-            # 文件名列表，包含完整路径
-            #Filelist.append(os.path.join(home, filename))
-            # # 文件名列表，只包含文件名
-            Filelist.append( filename)
-    return Filelist
 
 
 if __name__ == "__main__":
 
-    path ='/home/zjg/code2/result-word/'
-    Filelist = get_filelist(dir)
+    path1 =path+'/words-word/'
+    Filelist = os.listdir(path1)
     total=0
     totaly=0
-    with open('/home/zjg/code2/filter_en/6allshow_filteren.tsv','w',newline='')as fa:
+    with open(path+'/allshow_filteren.tsv','w',newline='')as fa:
         for i in range(0,len(Filelist)):
             x=0
             y=0
             fa.write('%s\n' %(Filelist[i]))
-            ftitle=get_title('result-type/',Filelist[i])#list里类型为str
-            ft=get_content('result-type/',Filelist[i])#list里类型为list
-            fr=get_content('result-resouce/',Filelist[i])#list里类型为list
-            fw=get_content('result-word/',Filelist[i])#list里类型为list
-            fl=get_content('filter_en/6(google50000)(pubmed10)/',Filelist[i])#list里类型为list
+            ftitle=get_title('words-type/',Filelist[i])#list里类型为str
+            ft=get_content('words-type/',Filelist[i])#list里类型为list
+            fr=get_content('words-resouce/',Filelist[i])#list里类型为list
+            fw=get_content('words-word/',Filelist[i])#list里类型为list
+            fl=get_content('filter_result_marker/',Filelist[i])#list里类型为list
         
             for i1 in range(0,len(ft)):
                 sh=[]
